@@ -16,6 +16,13 @@ Este proyecto analiza los costos de seguros de salud en EE.UU. utilizando **PySp
 * Se identificaron patrones de costos con una influencia significativa de la condición de fumador, la edad y el índice de masa corporal.
 * El modelo predictivo logró capturar tendencias en los costos con un desempeño satisfactorio, con un R² de 0.754.
 
+## Visualización de Resultados
+
+El siguiente gráfico muestra la comparación entre los costos reales y las predicciones, diferenciando entre fumadores y no fumadores:
+![Costos Reales vs. Predicciones](real_vs_prediction_plot.png)
+
+Se observa que los fumadores tienden a tener costos más elevados, lo cual es capturado por el modelo.
+
 ## Dataset
 
 El dataset utilizado proviene de Kaggle: [US Health Insurance Dataset](https://www.kaggle.com/datasets/teertha/ushealthinsurancedataset/data)
