@@ -1,7 +1,7 @@
 import logging
-from src.cleaning import clean_data, load_raw_csv, save_clean_dataset
+from cleaning import clean_data, load_raw_csv, save_clean_dataset
 from utils.session import create_spark_session
-from src.config import settings
+from config import settings
 
 logging.basicConfig(
     level=logging.INFO,
