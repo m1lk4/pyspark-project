@@ -1,13 +1,9 @@
 from pyspark.sql import DataFrame
 from pyspark.sql.functions import col, lower
+from google.cloud import bigquery
 import logging
 
 logger = logging.getLogger(__name__)
-
-
-def load_raw_csv(spark, input_path: str) -> DataFrame:
-    logger.info(f"Cargando CSV desde: {input_path}")
-    return spark.read.option("header", True).option("inferSchema", True).csv(input_path)
 
 
 def clean_data(df: DataFrame) -> DataFrame:
@@ -30,6 +26,23 @@ def clean_data(df: DataFrame) -> DataFrame:
     return df_clean
 
 
-def save_clean_dataset(df: DataFrame, output_path: str):
-    logger.info(f"Guardando dataset limpio en: {output_path}")
-    (df.write.mode("overwrite").parquet(output_path))
+def load_to_bq(project_id: str, dataset: str, table: str, clean_path: str):
+    """
+    Carga el DataFrame limpio a una tabla de BigQuery.
+    """
+    client = bigquery.Client(project=project_id)
+
+    table_name = f"{project_id}.{dataset}.{table}"
+    logger.info(f"Cargando datos a BigQuery en la tabla: {table_name}")
+
+    job_config = bigquery.LoadJobConfig(
+        source_format=bigquery.SourceFormat.PARQUET, write_disposition="WRITE_TRUNCATE"
+    )
+
+    uri = clean_path + "/*"
+
+    load_job = client.load_table_from_uri(uri, table_name, job_config=job_config)
+
+    load_job.result()
+
+    logger.info(f"Carga a BigQuery completada: {table_name}")

@@ -1,6 +1,6 @@
 import pytest
 from pyspark.sql import SparkSession
-from src.cleaning import clean_data
+from utils.transformations import clean_data
 from pyspark.sql.functions import col
 
 
